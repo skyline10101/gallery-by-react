@@ -18,6 +18,8 @@ html, body{
 /* stage end */
 
 
+/*尽量少嵌套：避免性能问题和移植性问题*/
+
 /* image start */
 .img-sec{
   position: relative;
@@ -26,7 +28,35 @@ html, body{
   overflow: hidden;
   background-color: #ddd;
 }
+
+.img-figure {
+  position: absolute;
+  width: 320px;
+  height: 360px;
+  margin: 0;
+  padding: 40px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.img-figure img {
+  width: 100%;
+}
+
+figcaption{
+  text-align: center;
+}
+
+figcaption .img-title{
+    margin: 20px 0 0 0;
+    color: #a7a0a2;
+    font-size: 16px;
+  }
+
 /* image end */
+
+
+
 
 /* controler start */
 .controler-nav{
@@ -38,3 +68,5 @@ html, body{
   text-align: center;
 }
 /* controler end */
+
+

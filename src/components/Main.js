@@ -20,6 +20,10 @@ imageDatas = (function genImageURL(imageDataArr){
 	return imageDataArr;
 })(imageDatas);
 
+function getRangeRandom(lwo,high){
+  return Mach.ceil(Math.random()* (high - low) + low);
+
+} 
 
 class AppComponent extends React.Component {
 
@@ -39,6 +43,21 @@ class AppComponent extends React.Component {
       vPosRange:{//垂直方向取值范围
         x:[0,0],
         topY:[0,0]
+      }
+
+        // 初始化state，图片的left\top位置
+      this.state = {
+        imgsArrangeArr: [
+          // {
+             pos:{
+               left: 0,
+               top: 0
+             },
+          //   rotate: 0,   // 图片的旋转角度
+          //   isInverse: false   // 设置图片是否翻转的状态
+          //   isCenter: false   // 默认图片不居中
+          // }
+        ]
       }
     }
 
@@ -101,28 +120,31 @@ class AppComponent extends React.Component {
         vPosRangeX = vPosRange.x,
 
         imgsArrangeTopArr = [],
-        topImgNum = Math.ceil((Math.random()*2))，//取一个或不取
+        topImgNum = Math.ceil((Math.random()*2)),//取一个或不取
 
         topImgSpliceIndex = 0,
         imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
 
-        //居中
+        //居中中心图片
+        imgsArrangeCenterArr[0].pos = centerPos;
 
+        //取出要布局上侧的图片的状态信息
+        topImgSpliceIndex = Math.ceil(Math.random() * (imgsArrangeArr.length - topImgNum));
+        imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex,topImgNum);
 
-  }
-
-  getInitialState(){
-    return {
-      imgsArrangeArr : [
-        {
-          pos:{
-            left:'0',
-            top:''
+        //布局位于上侧的图片
+        imgsArrangeTopArr.forEach(function(value,index){
+          imgsArrangeTopArr[index].pos = {
+            top:getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1]),
+            left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])
           }
-        }
-      ]
-    };
+        });
+
+        //布局两侧图片
+        
   }
+
+  
 
 
 

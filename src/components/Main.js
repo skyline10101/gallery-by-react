@@ -20,17 +20,16 @@ imageDatas = (function genImageURL(imageDataArr){
 	return imageDataArr;
 })(imageDatas);
 
-function getRangeRandom(lwo,high){
-  return Mach.ceil(Math.random()* (high - low) + low);
-
-} 
+function getRangeRandom(low, high){
+  return Math.ceil(Math.random() * (high - low) + low);
+}
 
 class AppComponent extends React.Component {
 
   constructor(props) {
     super(props);
 
-     this.Constant = {
+    this.Constant = {
       centerPos:{
         left:0,
         top:0
@@ -44,21 +43,22 @@ class AppComponent extends React.Component {
         x:[0,0],
         topY:[0,0]
       }
-
-        // 初始化state，图片的left\top位置
-      this.state = {
-        imgsArrangeArr: [
-          // {
-             pos:{
-               left: 0,
-               top: 0
-             },
-          //   rotate: 0,   // 图片的旋转角度
-          //   isInverse: false   // 设置图片是否翻转的状态
-          //   isCenter: false   // 默认图片不居中
-          // }
-        ]
-      }
+    }
+    
+    
+    // 初始化state，图片的left、top位置
+    this.state = {
+      imgsArrangeArr: [
+        // {
+           // pos:{
+           //   left: 0,
+           //   top: 0
+           // },
+        //   rotate: 0,   // 图片的旋转角度
+        //   isInverse: false   // 设置图片是否翻转的状态
+        //   isCenter: false   // 默认图片不居中
+        // }
+      ]
     }
 
   }
@@ -66,6 +66,7 @@ class AppComponent extends React.Component {
 
   //组件加载后为每张图片初始化范围
   componentDidMount(){
+
     //拿到舞台大小
     var stageDOM = ReactDOM.findDOMNode(this.refs.stage),
         //scrollWidth是对象的实际宽度，不包含滚动条等边线宽度，会随对象中内容可视区域超过边线内容而扩大；
@@ -79,8 +80,8 @@ class AppComponent extends React.Component {
     //拿到一个imgFigure的大小
     var imgFigureDOM = ReactDOM.findDOMNode(this.refs.imgFigure0),
         imgW = imgFigureDOM.scrollWidth,
-        imgH = imgFigureDOM.scrollheight,
-        halfImgW = Math.ceil( imgH / 2),
+        imgH = imgFigureDOM.scrollHeight,
+        halfImgW = Math.ceil( imgW / 2),
         halfImgH = Math.ceil( imgH / 2);
 
     //计算中心图片的位置点
@@ -96,6 +97,7 @@ class AppComponent extends React.Component {
     this.Constant.hPosRange.rightSecX[1] = stageW - halfImgW;
     this.Constant.hPosRange.y[0] = -halfImgH;
     this.Constant.hPosRange.y[1] = stageH - halfImgH;
+
 
     //计算上侧区域范围
     this.Constant.vPosRange.topY[0] = -halfImgH;
@@ -113,8 +115,8 @@ class AppComponent extends React.Component {
         centerPos = Constant.centerPos,
         hPosRange = Constant.hPosRange,
         vPosRange = Constant.vPosRange,
-        hPosRangeLeftSec = hPosRange.leftSecX,
-        hPosRangeRightSec = hPosRange.RightSecX,
+        hPosRangeLeftSecX = hPosRange.leftSecX,
+        hPosRangeRightSecX = hPosRange.rightSecX,
         hPosRangeY = hPosRange.y,
         vPosRangeTopY = vPosRange.topY,
         vPosRangeX = vPosRange.x,
@@ -124,6 +126,7 @@ class AppComponent extends React.Component {
 
         topImgSpliceIndex = 0,
         imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
+        
 
         //居中中心图片
         imgsArrangeCenterArr[0].pos = centerPos;
@@ -141,7 +144,32 @@ class AppComponent extends React.Component {
         });
 
         //布局两侧图片
-        
+        for (var i = 0, j = imgsArrangeArr.length, k = j/2; i < j; i++) {
+          var hPosRangeLOrRX = null;
+
+          //前半部分布局左边，后半部分布局右边
+          if(i < k){
+            hPosRangeLOrRX = hPosRangeLeftSecX;
+          } else {
+            hPosRangeLOrRX = hPosRangeRightSecX;
+          }
+
+          imgsArrangeArr[i].pos = {
+            top: getRangeRandom(hPosRangeY[0],hPosRangeY[1]),
+            left:getRangeRandom(hPosRangeLOrRX[0],hPosRangeLOrRX[1])           
+          };
+        }
+
+        if(imgsArrangeTopArr && imgsArrangeTopArr[0]){
+          imgsArrangeArr.splice(topImgSpliceIndex,0,imgsArrangeTopArr[0]);
+        }
+
+        imgsArrangeArr.splice(centerIndex,0,imgsArrangeCenterArr);
+
+        this.setState({
+          imgsArrangeArr: imgsArrangeArr
+        });
+
   }
 
   
@@ -164,7 +192,7 @@ class AppComponent extends React.Component {
         }
       }
 
-  		imgFigures.push(<ImgFigure data={value} ref={"imgFigure" + index}/>);
+  		imgFigures.push(<ImgFigure data={value} ref={'imgFigure' + index} arrange={this.state.imgsArrangeArr[index]}/>);
   	}.bind(this));
 
 

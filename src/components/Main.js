@@ -83,12 +83,16 @@ class AppComponent extends React.Component {
         imgH = imgFigureDOM.scrollHeight,
         halfImgW = Math.ceil( imgW / 2),
         halfImgH = Math.ceil( imgH / 2);
+       
 
     //计算中心图片的位置点
     this.Constant.centerPos = {
       left : halfStageW - halfImgW,
       top : halfStageH - halfImgH
     }
+
+    console.log('this.Constant.centerPos.left:' + this.Constant.centerPos.left);   
+    console.log('this.Constant.centerPos.top:' + this.Constant.centerPos.top); 
 
     //计算左侧右侧区域范围
     this.Constant.hPosRange.leftSecX[0] = - halfImgW;
@@ -125,8 +129,8 @@ class AppComponent extends React.Component {
         topImgNum = Math.ceil((Math.random()*2)),//取一个或不取
 
         topImgSpliceIndex = 0,
-        imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
-        
+
+        imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);       
 
         //居中中心图片
         imgsArrangeCenterArr[0].pos = centerPos;
@@ -164,7 +168,7 @@ class AppComponent extends React.Component {
           imgsArrangeArr.splice(topImgSpliceIndex,0,imgsArrangeTopArr[0]);
         }
 
-        imgsArrangeArr.splice(centerIndex,0,imgsArrangeCenterArr);
+        imgsArrangeArr.splice(centerIndex,0,imgsArrangeCenterArr[0]);
 
         this.setState({
           imgsArrangeArr: imgsArrangeArr

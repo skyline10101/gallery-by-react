@@ -9,6 +9,13 @@ class ImgFigure extends React.Component {
 			styleObj = this.props.arrange.pos;
 		}
 
+		//如果图片的旋转角度有值并且不为零，添加旋转角度
+		if(this.props.arrange.rotate){
+			(['-moz-','-ms-','-webkit-','']).forEach(function(value){
+				styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate +'deg)';
+			}.bind(this));
+			
+		}
 
 		return (
 			<figure className="img-figure" style={styleObj}>

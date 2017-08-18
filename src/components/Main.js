@@ -134,7 +134,7 @@ class AppComponent extends React.Component {
 
         topImgSpliceIndex = 0,
 
-        imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);       
+        imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
 
         //首先居中centerIndex图片
         imgsArrangeCenterArr[0].pos = centerPos;
@@ -171,7 +171,7 @@ class AppComponent extends React.Component {
           imgsArrangeArr[i] = {
             pos : {
               top: getRangeRandom(hPosRangeY[0],hPosRangeY[1]),
-              left:getRangeRandom(hPosRangeLOrRX[0],hPosRangeLOrRX[1])           
+              left:getRangeRandom(hPosRangeLOrRX[0],hPosRangeLOrRX[1])
             },
             rotate:get30DegRandom()
           };

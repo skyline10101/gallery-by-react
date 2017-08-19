@@ -116,6 +116,23 @@ class AppComponent extends React.Component {
     this.rearrange(0);
   }
 
+  /*
+   *  翻转图片
+      @ param index 输入当前被执行inverse操作执行的图片对应的图片数组信息的index值
+      @ return {Function}  这是一个闭包函数，其内return一个待被执行的函数
+   */
+  inverse(index){
+    return function(){
+      var imgsArrangeArr = this.state.imgsArrangeArr;
+
+      imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
+      this.setState({
+        imgsArrangeArr: imgsArrangeArr
+      });
+
+    }.bind(this);
+  }
+
   //重新布局所有图片
   rearrange (centerIndex) {
     var imgsArrangeArr = this.state.imgsArrangeArr,
@@ -206,11 +223,19 @@ class AppComponent extends React.Component {
             left:0,
             top :0
           },
-          rotate : 0
+          rotate : 0,
+          isInverse : false
         }
       }
 
-  		imgFigures.push(<ImgFigure data={value} ref={'imgFigure' + index} arrange={this.state.imgsArrangeArr[index]}/>);
+  		imgFigures.push(
+        <ImgFigure 
+          data={value} 
+          ref={'imgFigure' + index} 
+          arrange={this.state.imgsArrangeArr[index]} 
+          inverse={this.inverse(index)}
+        />
+      );
   	}.bind(this));
 
 

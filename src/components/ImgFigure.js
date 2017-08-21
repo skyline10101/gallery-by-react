@@ -5,7 +5,13 @@ class ImgFigure extends React.Component {
 	 *	imgFigure的点击处理函数
 	 */
 	handleClick(e) {
-		this.props.inverse();
+
+		if(this.props.arrange.isCenter){
+			this.props.inverse();
+		}else {
+			this.props.center();
+		}
+
 
 		e.stopPropagation();
 		e.preventDefault();
@@ -18,9 +24,8 @@ class ImgFigure extends React.Component {
 		if(this.props.arrange.pos){
 			styleObj = this.props.arrange.pos;
 		}
-
 		var imgFigureClassName = "img-figure";
-		imgFigureClassName += this.props.arrange.isInverse ? 'is-inverse' : '';
+		imgFigureClassName += this.props.arrange.isInverse ? ' is-inverse' : '';
 
 
 		//如果图片的旋转角度有值并且不为零，添加旋转角度
@@ -29,6 +34,10 @@ class ImgFigure extends React.Component {
 				styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate +'deg)';
 			}.bind(this));
 			
+		}
+
+		if(this.props.arrange.isCenter){
+			styleObj.zIndex = 11; 			
 		}
 
 		return (

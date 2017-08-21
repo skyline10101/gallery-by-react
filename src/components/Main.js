@@ -133,6 +133,17 @@ class AppComponent extends React.Component {
     }.bind(this);
   }
 
+  /*
+   *  利用rearrange函数居中相应index的图片
+   */
+
+  center(index){
+    return function(){
+      this.rearrange(index);
+    }.bind(this);
+  }
+
+
   //重新布局所有图片
   rearrange (centerIndex) {
     var imgsArrangeArr = this.state.imgsArrangeArr,
@@ -153,11 +164,13 @@ class AppComponent extends React.Component {
 
         imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
 
-        //首先居中centerIndex图片
-        imgsArrangeCenterArr[0].pos = centerPos;
-
-        //居中的图片不需要旋转
-        imgsArrangeCenterArr[0].rotate = 0;
+        //首先居中centerIndex图片，居中的图片不需要旋转
+        imgsArrangeCenterArr[0] = {
+          pos : centerPos,
+          rotate : 0,
+          isCenter:true
+        };        
+        
 
         //取出要布局上侧的图片的状态信息
         topImgSpliceIndex = Math.ceil(Math.random() * (imgsArrangeArr.length - topImgNum));
@@ -170,7 +183,8 @@ class AppComponent extends React.Component {
               top:getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1]),
               left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])
             },
-            rotate:get30DegRandom()
+            rotate:get30DegRandom(),
+            isCenter:false
           };
         });
 
@@ -190,7 +204,8 @@ class AppComponent extends React.Component {
               top: getRangeRandom(hPosRangeY[0],hPosRangeY[1]),
               left:getRangeRandom(hPosRangeLOrRX[0],hPosRangeLOrRX[1])
             },
-            rotate:get30DegRandom()
+            rotate:get30DegRandom(),
+            isCenter:false
           };
         }
 
@@ -224,7 +239,8 @@ class AppComponent extends React.Component {
             top :0
           },
           rotate : 0,
-          isInverse : false
+          isInverse : false,
+          isCenter:false
         }
       }
 
@@ -234,6 +250,7 @@ class AppComponent extends React.Component {
           ref={'imgFigure' + index} 
           arrange={this.state.imgsArrangeArr[index]} 
           inverse={this.inverse(index)}
+          center={this.center(index)}
         />
       );
   	}.bind(this));

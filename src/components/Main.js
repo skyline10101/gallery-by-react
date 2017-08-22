@@ -4,6 +4,7 @@ require('styles/App.css');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ImgFigure from './ImgFigure';
+import ControllerUnit from './ControllerUnit';
 
 //获取图片相关数据
 let imageDatas = require('json!../data/imageDatas.json');
@@ -227,7 +228,7 @@ class AppComponent extends React.Component {
 
   render() {
 
-  	var controlerUnits = [],
+  	var controllerUnits = [],
   		imgFigures = [];
 
   	imageDatas.forEach(function(value,index){
@@ -253,7 +254,13 @@ class AppComponent extends React.Component {
           center={this.center(index)}
         />
       );
+
+      controllerUnits.push(<ControllerUnit/>);
+
+      
   	}.bind(this));
+
+    
 
 
     return (
@@ -262,8 +269,8 @@ class AppComponent extends React.Component {
      		<section className='img-sec'>
 				{imgFigures}
      		</section>
-     		<nav className='controler-nav'>
-				{controlerUnits}
+     		<nav className='controller-nav'>
+				{controllerUnits}
      		</nav>
      	</section>
     );

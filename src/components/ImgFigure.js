@@ -24,20 +24,19 @@ class ImgFigure extends React.Component {
 		if(this.props.arrange.pos){
 			styleObj = this.props.arrange.pos;
 		}
-		var imgFigureClassName = "img-figure";
+		var imgFigureClassName = 'img-figure';
 		imgFigureClassName += this.props.arrange.isInverse ? ' is-inverse' : '';
 
 
 		//如果图片的旋转角度有值并且不为零，添加旋转角度
 		if(this.props.arrange.rotate){
-			(['-moz-','-ms-','-webkit-','']).forEach(function(value){
-				styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate +'deg)';
+			(['MozTransform','msTransform','WebkitTransform','transform']).forEach(function(value){
+				styleObj[value] = 'rotate(' + this.props.arrange.rotate +'deg)';
 			}.bind(this));
-			
 		}
 
 		if(this.props.arrange.isCenter){
-			styleObj.zIndex = 11; 			
+			styleObj.zIndex = 11;
 		}
 
 		return (

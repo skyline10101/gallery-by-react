@@ -1,5 +1,10 @@
 /*尽量少嵌套：避免性能问题和移植性问题*/
 
+@font-face{
+  font-family: 'icons-turn-arrow';
+  src:url('../fonts/icons/turn-arrow.eot') format('enbeded'),url('../fonts/icons/turn-arrow.woff') format('woff'),url('../fonts/icons/turn-arrow.ttf') format('truetype'),url('../fonts/icons/turn-arrow.svg') format('svg');
+}
+
 html, body{
   width: 100%;
   height: 100%;
@@ -187,7 +192,40 @@ figcaption .img-back {
   width: 30px;
   height: 30px;
   text-align: center;
+  vertical-align: middle;
   cursor: pointer;
   background-color: #aaa;
   border-radius: 50%;
+  transform: scale(.5);
+  transition:transform .6s ease-in-out,background-color .3s;
+}
+
+.controller-unit.is-center{
+  transform: scale(1);
+  background-color: #888;
+}
+
+.controller-unit.is-center::after{
+  color: #fff;
+  font-family: "icons-turn-arrow";
+  content: "\e600";
+  line-height: 30px;
+  font-size: 80%;
+
+/*
+      * 屏幕渲染机制：灰阶渲染（控制边缘亮度，所耗内存相对较低，应用于手机） 亚像素渲染（效果更好，所耗内存相对更高，应用于Mac等）
+      * Mac上有些浅色字体图片（在上面设置了白色，可以设置为深色进行测试）在浏览器上显得较粗
+      * 解决方案：修改浏览器的属性：
+      */
+
+  /* 开启chrome在Mac下字体渲染的灰阶平滑 */
+  -webkit-font-smoothing:antialiased;
+
+  /* 开启firefox在Mac下字体渲染的灰阶平滑 */
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.controller-unit.is-center.is-inverse{
+  background-color: #555;
+  transform: rotateY(180deg);
 }

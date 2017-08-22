@@ -159,7 +159,7 @@ class AppComponent extends React.Component {
         vPosRangeX = vPosRange.x,
 
         imgsArrangeTopArr = [],
-        topImgNum = Math.ceil((Math.random()*2)),//取一个或不取
+        topImgNum = Math.floor((Math.random()*2)),//取一个或不取
 
         topImgSpliceIndex = 0,
 
@@ -170,8 +170,7 @@ class AppComponent extends React.Component {
           pos : centerPos,
           rotate : 0,
           isCenter:true
-        };        
-        
+        };
 
         //取出要布局上侧的图片的状态信息
         topImgSpliceIndex = Math.ceil(Math.random() * (imgsArrangeArr.length - topImgNum));
@@ -219,12 +218,7 @@ class AppComponent extends React.Component {
         this.setState({
           imgsArrangeArr: imgsArrangeArr
         });
-
   }
-
-  
-
-
 
   render() {
 
@@ -245,17 +239,26 @@ class AppComponent extends React.Component {
         }
       }
 
+      //加入key帮助react提升性能
   		imgFigures.push(
-        <ImgFigure 
-          data={value} 
-          ref={'imgFigure' + index} 
-          arrange={this.state.imgsArrangeArr[index]} 
+        <ImgFigure
+          key={index}
+          data={value}
+          ref={'imgFigure' + index}
+          arrange={this.state.imgsArrangeArr[index]}
           inverse={this.inverse(index)}
           center={this.center(index)}
         />
       );
 
-      controllerUnits.push(<ControllerUnit/>);
+      controllerUnits.push(
+        <ControllerUnit
+          key={index}
+          arrange={this.state.imgsArrangeArr[index]}
+          inverse={this.inverse(index)}
+          center={this.center(index)}
+        />
+      );
 
       
   	}.bind(this));
